@@ -1,0 +1,57 @@
+﻿@using OnlineShop.Application.Paginations;
+@using OnlineShop.Application.ProductRating.Commands.Create;
+@model OnlineShop.Application.Product.ProductDto
+
+@{
+	ViewData["Title"] = "Details";
+	
+}
+
+<h1>Details</h1>
+
+
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-md-8">
+			<div class="card mb-4">
+				<div class="card-body">
+					
+					@foreach (var item in @Model.Images)
+					{
+						<img class="img-fluid" src="../Img/@item.FileName" alt="zdjecie produktu"/>
+					}
+					
+					
+					<h2 class="card-title">@Model.Name</h2>
+					<p class="lead card-subtitle mb-2 text-muted">Cena: @Model.Price</p>
+					<p class="card-text">@Model.Description</p>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<h3 class="card-title">Komentarze i opinie</h3>
+					<partial name="_CreateProductRating" model="new CreateProductRatingCommand(){ProductEncodedName=Model.EncodedName}" />
+					<hr>
+					<h4 class="mb-2">Najnowsze opinie:</h4>
+					
+					<div class="card-text" id="services" data-encoded-name="@Model.EncodedName" data-page-number="1"  >
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div>
+	@* @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) | *@
+	<a asp-action="Index">Back to List</a>
+</div>
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+		<script src="~/js/ProductRating/Details.js"></script>
+	}
+}

@@ -1,7 +1,9 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using OnlineShop.Application.ApplicationUser;
 using OnlineShop.Application.Mapping;
 using OnlineShop.Application.Product.Commands.CreateProduct;
 
@@ -11,10 +13,18 @@ namespace OnlineShop.Infrastructure.Extensions
     {
         public static void AddApplication(this IServiceCollection Services) {
 
-            Services.AddAutoMapper(typeof(ProductsMappingProfil));
+			Services.AddScoped<IUserContext, UserContext>();
             Services.AddMediatR(typeof(CreateProductCommand));
 
-            Services.AddValidatorsFromAssemblyContaining(typeof(CreateProductCommandValidator))
+			Services.AddScoped(provider => new MapperConfiguration(cfg =>
+			{
+				var scope = provider.CreateScope();
+				var userContext = scope.ServiceProvider.GetRequiredService<IUserContext>();
+				cfg.AddProfile(new ProductsMappingProfil(userContext));
+			}).CreateMapper()
+			);
+
+			Services.AddValidatorsFromAssemblyContaining(typeof(CreateProductCommandValidator))
                 .AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters();
         }

@@ -1,11 +1,7 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.EntityFrameworkCore;
-using OnlineShop.Infrastructure.Database;
 using OnlineShop.Infrastructure.Extensions;
 using OnlineShop.Infrastructure.Seeders;
 using System.Globalization;
-using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 

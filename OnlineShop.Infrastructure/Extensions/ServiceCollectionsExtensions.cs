@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OnlineShop.Domain.Entities;
 using OnlineShop.Domain.Interfaces;
 using OnlineShop.Infrastructure.Database;
 using OnlineShop.Infrastructure.Repositories;
@@ -17,12 +18,15 @@ namespace OnlineShop.Infrastructure.Extensions
                    Configuration.GetConnectionString("DefaultConnection")));
 
             
-            Services.AddDefaultIdentity<IdentityUser>()
+            Services.AddDefaultIdentity<AppUser>()
                 .AddEntityFrameworkStores<OnlineShopDbContext>();
 
             Services.AddScoped<OnlineShopSeeder>();
-
+            Services.AddScoped<IImagesRepository, ImagesRepository>();
             Services.AddScoped<IProductsRepository, ProductsRepository>();
+            Services.AddScoped<IProductsRatingRepository, ProductsRatingRepository>();
+            Services.AddScoped<ICartPositionRepository, CartPositonRepository>();
+            Services.AddScoped<IUserRepository, UserRepository>();
         }
     }
 }

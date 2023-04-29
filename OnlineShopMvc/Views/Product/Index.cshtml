@@ -20,6 +20,8 @@
                 <h6 class="card-subtitle mb-2 text-muted">@item.Price</h6>
                 <p class="card-text">@item.Description</p>
                 <a class="btn btn-danger" asp-action="Delete" asp-route-encodedName="@item.EncodedName" >Delete</a>
+                <a class="btn btn-primary" asp-action="Details" asp-route-encodedName="@item.EncodedName" >Details</a>
+                <a class="btn btn-success" asp-action="AddToCart" asp-controller="Cart" asp-route-encodedNameProduct="@item.EncodedName">Do koszyka</a>
             </div>
         </div>
     }

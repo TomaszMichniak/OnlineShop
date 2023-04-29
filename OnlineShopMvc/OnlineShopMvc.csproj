@@ -24,4 +24,8 @@
 	<ProjectReference Include="..\OnlineShop.Infrastructure\OnlineShop.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Img\" />
+  </ItemGroup>
+
 </Project>

@@ -4,7 +4,7 @@ using OnlineShop.Domain.Interfaces;
 
 namespace OnlineShop.Application.Product.Queries.GetAllProducts
 {
-    internal class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, IEnumerable<ProductDto>>
+    public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, IEnumerable<ProductDto>>
     {
         private readonly IMapper _mapper;
         private readonly IProductsRepository _productsRepository;
