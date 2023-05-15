@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace OnlineShopMvc.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly IMediator _mediator;
@@ -24,23 +25,26 @@ namespace OnlineShopMvc.Controllers
             _mediator = mediator;
             _mapper = mapper;
         }
-        [Route("Produkty")]
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var products = await _mediator.Send(new GetAllProductsQuery());
             return View(products);
         }
+        [AllowAnonymous]
         [Route("Produkty/{encodedName}")]
         public async Task<IActionResult> Details(string encodedName)
         {
             var product = await _mediator.Send(new GetProductByEncodedNameQuery(encodedName));
             return View(product);
         }
+		[Authorize(Roles ="Admin")]
         [Route("Produkty/Tworzenie")]
         public IActionResult Create()
         {
             return View();
         }
+		[Authorize(Roles ="Admin")]
         [Route("Produkty/Tworzenie")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductCommand command)
@@ -52,6 +56,7 @@ namespace OnlineShopMvc.Controllers
             await _mediator.Send(command);
             return RedirectToAction("Index");
         }
+		[Authorize(Roles ="Admin")]
         [Route("Produkty/Usuwanie")]
         public async Task<IActionResult> Delete(string encodedName)
         {
@@ -59,7 +64,6 @@ namespace OnlineShopMvc.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize]
         [HttpPost]
         [Route("Produkty/Komenatrze/Tworzenie")]
         public async Task<IActionResult> CreateProductRating(CreateProductRatingCommand command)
@@ -71,6 +75,7 @@ namespace OnlineShopMvc.Controllers
             await _mediator.Send(command);
             return Ok();
         }
+        [AllowAnonymous]
         [HttpGet]
         [Route("Produkty/{encodedName}/Komentarze/{pagination?}")]
         public async Task<IActionResult> GetProductRatings(string encodedName, Pagination? pagination)

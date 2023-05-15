@@ -1,27 +1,43 @@
 ﻿const RenderProductRatings = (services, container) => {
     container.empty();
+    container.append(`
+        <p> 
+           Wszystkie opinie ${services.totalItemsCount}
+        </p>
+    `)
 
     for (const service of services.items) {
+        if (service.description == null) {
+            service.description = "";
+        }
+        var ratingStars = "";
+        var i = 0;
+        while (i < service.rating) {
+            ratingStars += ' <i class="fa-solid fa-star yellowColor"></i> ';
+            i++;
+        }
+        var momentDate = moment(service.createdAt);
+        var formattedDate = momentDate.format('DD.MM.YYYY');
+
         if (service.isDeleted) {
             container.append(
                 `<div class="media mb-4">
-				<div class="media-body">
+				<div class="media-body border-bottom">
                     <h5 class="mt-0">${service.userName}</h5>
-	                <p>${service.rating}/5</p>
+	                <p class="text-muted">${formattedDate}</p>
+	                <p>${ratingStars}</p>
 	                <p>${service.description}</p>
-	                <p class="text-muted">${service.createdAt}</p>
                     <input type="button" onclick="deleteRating(this)" class="btn btn-danger" data-id="${service.id}" value="Usuń">
 	            </div>
 	        </div>`)
         } else {
-
-        container.append(
-            `<div class="media mb-4">
+            container.append(
+                `<div class="media mb-4">
 				<div class="media-body">
                     <h5 class="mt-0">${service.userName}</h5>
-	                <p>${service.rating}/5</p>
 	                <p>${service.description}</p>
-	                <p class="text-muted">${service.createdAt}</p>
+	                <p>${ratingStars}/5</p>
+	                <p class="text-muted">${formattedDate}</p>
 	            </div>
 	        </div>`)
         }
@@ -52,11 +68,6 @@
                  
                 `)
     }
-    container.append(`
-        <p> 
-           Wszystkie opinie ${services.totalItemsCount}
-        </p>
-    `)
 }
 
 
@@ -88,14 +99,14 @@ function get(e) {
         data: $(this).serialize(),
         success: function (data) {
             if (!data.items.length) {
-                container.html("Nie ma")
+                container.html("Brak opinii")
             } else {
                 RenderProductRatings(data, container)
             }
 
         },
         error: function () {
-            container.html("Nie ma")
+            container.html("Brak opinii")
         }
     })
 
@@ -114,14 +125,14 @@ const LoadProductRatings = () => {
         data: $(this).serialize(),
         success: function (data) {
             if (!data.items.length) {
-                container.html("Nie ma")
+                container.html("Brak opinii")
             } else {
                 RenderProductRatings(data, container)
             }
 
         },
         error: function () {
-            container.html("Nie ma")
+            container.html("Brak opinii")
         }
     })
 
@@ -140,7 +151,7 @@ $(document).ready(function () {
                 LoadProductRatings()
             },
             error: function () {
-                  toastr["error"]("Komentarz nie został dodany")
+                toastr["error"]("Komentarz nie został dodany")
             }
         })
     });

@@ -17,9 +17,13 @@ namespace OnlineShop.Infrastructure.Extensions
             Services.AddDbContext<OnlineShopDbContext>(options => options.UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection")));
 
-            
+
             Services.AddDefaultIdentity<AppUser>()
-                .AddEntityFrameworkStores<OnlineShopDbContext>();
+              .AddRoles<IdentityRole>()
+              .AddEntityFrameworkStores<OnlineShopDbContext>();
+
+
+
 
             Services.AddScoped<OnlineShopSeeder>();
             Services.AddScoped<IImagesRepository, ImagesRepository>();

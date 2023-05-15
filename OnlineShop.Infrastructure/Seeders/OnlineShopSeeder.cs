@@ -8,6 +8,7 @@ namespace OnlineShop.Infrastructure.Seeders
     {
         private readonly OnlineShopDbContext _dbContext;
 
+
         public OnlineShopSeeder(OnlineShopDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -15,9 +16,17 @@ namespace OnlineShop.Infrastructure.Seeders
 
         public async Task Seed()
         {
+            if (!_dbContext.Roles.Any())
+            {
+                var admin = new IdentityRole() { Name = "Admin", NormalizedName = "ADMIN" };
+                var user = new IdentityRole() { Name = "USER", NormalizedName = "USER" };
+                _dbContext.Roles.AddRange(admin, user);
+                await _dbContext.SaveChangesAsync();
+            }
+
             if (!_dbContext.AppUsers.Any())
             {
-                
+
                 var user = new AppUser()
                 {
                     FirstName = "Tomasz",
@@ -31,6 +40,12 @@ namespace OnlineShop.Infrastructure.Seeders
                 user.PasswordHash = hasher.HashPassword(user, "haslo");
                 _dbContext.AppUsers.Add(user);
                 await _dbContext.SaveChangesAsync();
+                var userRole = new IdentityUserRole<string>()
+                {
+                    UserId = user.Id,
+                    RoleId = _dbContext.Roles.Where(x => x.Name == "Admin").First().Id
+                };
+                _dbContext.UserRoles.Add(userRole);
             }
 
             if (!_dbContext.Products.Any())
@@ -64,18 +79,18 @@ namespace OnlineShop.Infrastructure.Seeders
                 _dbContext.Products.AddRange(product, secondProduct);
                 await _dbContext.SaveChangesAsync();
             }
-                if (!_dbContext.ProductRatings.Any())
+            if (!_dbContext.ProductRatings.Any())
+            {
+                var rating = new ProductRating()
                 {
-                    var rating = new ProductRating()
-                    {
-                        Rating = 5,
-                        ProductId = _dbContext.Products.FirstOrDefault().Id,
-                        AppUserId = _dbContext.AppUsers.FirstOrDefault().Id,
-                        Description = "Fajne"
-                    };
-                    _dbContext.ProductRatings.Add(rating);
-                    await _dbContext.SaveChangesAsync();
-                }
+                    Rating = 5,
+                    ProductId = _dbContext.Products.FirstOrDefault().Id,
+                    AppUserId = _dbContext.AppUsers.FirstOrDefault().Id,
+                    Description = "Fajne"
+                };
+                _dbContext.ProductRatings.Add(rating);
+                await _dbContext.SaveChangesAsync();
+            }
         }
     }
 }

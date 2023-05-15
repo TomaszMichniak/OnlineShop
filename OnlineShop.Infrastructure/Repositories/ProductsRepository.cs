@@ -15,7 +15,7 @@ namespace OnlineShop.Infrastructure.Repositories
         }
 
         public async Task<IEnumerable<Product>> GetAll()
-            => await _dbContext.Products.ToListAsync();
+            => await _dbContext.Products.Include(x=>x.Images).ToListAsync();
 
         public async Task Create(Product product)
         {

@@ -12,5 +12,10 @@ namespace OnlineShop.Domain.Interfaces
 		public Task Create(int productId, int cartId);
 		public Task<CartPosition?> GetByCartIdAndProductId(int cartId, int productId);
 		public Task PlusCount(CartPosition cartPosition);
-    }
+		public Task MinusCount(CartPosition cartPosition);
+		public Task<IEnumerable<CartPosition?>> GetAllByCartId(int cartId);
+		public Task Delete(CartPosition cartPosition);
+
+
+	}
 }

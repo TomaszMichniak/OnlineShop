@@ -5,6 +5,14 @@
     {
       "library": "toastr.js@2.1.4",
       "destination": "wwwroot/lib/toastr.js/"
+    },
+    {
+      "library": "bootstrap-slider@11.0.2",
+      "destination": "wwwroot/lib/bootstrap-slider/"
+    },
+    {
+      "library": "moment.js@2.29.4",
+      "destination": "wwwroot/lib/moment.js/"
     }
   ]
 }

@@ -31,10 +31,10 @@ namespace OnlineShop.Application.Cart.Commands.AddToCartCommand
 			var isExistCartPosition =await  _cartPositionRepository.GetByCartIdAndProductId(allUserData.CartId, product.Id);
 			if (isExistCartPosition !=null)
 			{
-				_cartPositionRepository.PlusCount(isExistCartPosition);
+				await _cartPositionRepository.PlusCount(isExistCartPosition);
                 return Unit.Value;
             }
-			_cartPositionRepository.Create(product.Id, allUserData.CartId);
+			await _cartPositionRepository.Create(product.Id, allUserData.CartId);
 			return Unit.Value;
 		}
 	}

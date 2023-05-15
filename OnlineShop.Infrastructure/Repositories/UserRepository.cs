@@ -1,4 +1,5 @@
-﻿using OnlineShop.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineShop.Domain.Entities;
 using OnlineShop.Domain.Interfaces;
 using OnlineShop.Infrastructure.Database;
 using System;
@@ -20,5 +21,7 @@ namespace OnlineShop.Infrastructure.Repositories
 
 		public async Task<AppUser?> GetUserById(string id)
 		=> await _context.AppUsers.FindAsync(id);
+		public int GetUserCartId(string id)
+			=> _context.AppUsers.First(x => x.Id == id).CartId;
 	}
 }

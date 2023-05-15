@@ -2,8 +2,13 @@ using Microsoft.AspNetCore.Localization;
 using OnlineShop.Infrastructure.Extensions;
 using OnlineShop.Infrastructure.Seeders;
 using System.Globalization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using OnlineShop.Infrastructure.Database;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
@@ -47,8 +52,8 @@ app.UseRequestLocalization(new RequestLocalizationOptions
     SupportedUICultures=culture
 });
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+            name: "default",
+            pattern: "{controller=Product}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();

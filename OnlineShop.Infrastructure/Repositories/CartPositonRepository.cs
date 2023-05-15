@@ -39,7 +39,22 @@ namespace OnlineShop.Infrastructure.Repositories
 		{
 			cartPosition.Count++;
 			await _context.SaveChangesAsync();
-		}		
-		
+		}
+		public async Task MinusCount(CartPosition cartPosition)
+		{
+			cartPosition.Count--;
+			await _context.SaveChangesAsync();
+		}
+		public async Task<IEnumerable<CartPosition?>> GetAllByCartId(int cartId)
+			=> await _context.CartPositions
+			.Where(x => x.CartId == cartId)
+			.Include(x=>x.Product)
+			.ThenInclude(x=>x.Images)
+			.ToListAsync();
+		public async Task Delete(CartPosition cartPosition)
+		{
+			_context.CartPositions.Remove(cartPosition);
+			await _context.SaveChangesAsync();
+		}
 	}
 }

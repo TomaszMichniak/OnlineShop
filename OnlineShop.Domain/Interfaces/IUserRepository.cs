@@ -11,5 +11,7 @@ namespace OnlineShop.Domain.Interfaces
 	public interface IUserRepository
 	{
 		public Task<AppUser?> GetUserById(string id);
-	}
+		public int GetUserCartId(string id);
+
+    }
 }

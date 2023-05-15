@@ -1,4 +1,5 @@
-﻿using OnlineShop.Application.ProductRating;
+﻿using OnlineShop.Application.Image;
+using OnlineShop.Application.ProductRating;
 using OnlineShop.Domain.Entities;
 
 namespace OnlineShop.Application.Product
@@ -9,6 +10,6 @@ namespace OnlineShop.Application.Product
         public string? Description { get; set; }
         public decimal? Price { get; set; }
         public string? EncodedName { get; set; }
-        public List<Domain.Entities.Image> Images { get; set; } = new List<Domain.Entities.Image>();
+        public List<ImageDto> Images { get; set; } = new List<ImageDto>();
     }
 }
