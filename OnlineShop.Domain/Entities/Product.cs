@@ -11,6 +11,7 @@ namespace OnlineShop.Domain.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; } = default!;
+        public decimal AverageRating { get; set; } = 5.0m;
         public string Description { get; set; }=default!;
         public DateTime CreatedAt { get; set; }=DateTime.Now;
         public decimal Price { get; set; } = default!;

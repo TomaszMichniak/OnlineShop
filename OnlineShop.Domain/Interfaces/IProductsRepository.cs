@@ -13,8 +13,8 @@ namespace OnlineShop.Domain.Interfaces
         Task Create(Product product);
         Task Delete(string encodedName);
         Task<Domain.Entities.Product?> GetByName(string name);
-        public Task<Product> GetByEncodedName(string encodedName);
-
-	}
+        Task<Product> GetByEncodedName(string encodedName);
+        Task Update(Product product);
+    }
 }
 

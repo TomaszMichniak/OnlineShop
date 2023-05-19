@@ -26,6 +26,7 @@
                                     </div>
                                 }
                             }
+
                         </div>
                         <button class="carousel-control-prev " type="button" data-mdb-target="#carouselExampleControls" data-mdb-slide="prev">
                             <span class="carousel-control-prev-icon " aria-hidden="true"></span>
@@ -41,12 +42,21 @@
                     <h2 class="card-title">@Model.Name</h2>
                     <p class="lead card-subtitle mb-2 text-muted">Cena: @Model.Price</p>
                     <p class="card-text">@Model.Description</p>
+                        <div>
+                            @{
+                                var roundedItem = Math.Round(@Model.AverageRating);
+                                for (int i = 0; i < roundedItem; i++)
+                                {
+                                    <i class="fa fa-star star yellowColor"></i>
+                                }
+                            }
+                        </div>
                 </div>
             </div>
             <div class="card">
                 <div class="card-body">
                     <h3 class="card-title">Komentarze i opinie</h3>
-                    <partial name="_CreateProductRating" model="new CreateProductRatingCommand(){ProductEncodedName=Model.EncodedName}" />
+                    <partial name="_CreateProductRating" model="new CreateProductRatingCommand() { ProductEncodedName = Model.EncodedName }"/>
                     <hr>
                     <h4 class="mb-2">Najnowsze opinie:</h4>
 
@@ -59,14 +69,11 @@
 </div>
 
 
-
-
-
-
 @section Styles{
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="~/css/ProductRating.css" >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/ProductRating.css">
 }
+
 @section Scripts {
 
     <script>

@@ -27,7 +27,9 @@ namespace OnlineShop.Infrastructure.Repositories
 				.ToListAsync();
 
 		public async Task<ProductRating?> GetProductRating(int id)
-		=> await _dbContext.ProductRatings.FirstOrDefaultAsync(x => x.Id == id);
+		=> await _dbContext.ProductRatings
+			.Include(x=>x.Product)
+			.FirstOrDefaultAsync(x => x.Id == id);
 		public async Task Delete(ProductRating product)
 		{
 			_dbContext.Remove(product);

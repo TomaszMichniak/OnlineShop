@@ -1,22 +1,27 @@
-﻿@model IEnumerable<OnlineShop.Application.Product.ProductDto>
-
+﻿@using Microsoft.AspNetCore.Identity
+@using OnlineShop.Domain.Entities
+@model IEnumerable<OnlineShop.Application.Product.ProductDto>
+@inject SignInManager<AppUser> SignInManager
 @{
     ViewData["Title"] = "Sklep";
 }
 
 <h1>Sklep</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (SignInManager.IsSignedIn(User))
+{
+    if (User.IsInRole("Admin"))
+    {
+        <p>
+            <a asp-action="Create">Stwórz nowy</a>
+        </p>
+    }
+}
 
 <div class="container d-flex justify-content-center mt-50 mb-50">
 
     <div class="row">
         @foreach (var item in Model)
         {
-
-
             <div class="col-md-4 col-sm-6 col-12 mt-2">
 
 
@@ -47,22 +52,29 @@
                         <h3 class="mb-0 font-weight-semibold">@item.Price zł</h3>
 
                         <div>
-                            <i class="fa fa-star star"></i>
-                            <i class="fa fa-star star"></i>
-                            <i class="fa fa-star star"></i>
-                            <i class="fa fa-star star"></i>
+                            @{
+                                var roundedItem = Math.Round(@item.AverageRating);
+                                for (int i = 0; i <roundedItem; i++)
+                                {
+                                    <i class="fa fa-star star yellowColor"></i>
+                                }
+                            }
                         </div>
 
                         @*<div class="text-muted mb-3">34 reviews</div>*@
-
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            if (User.IsInRole("Admin"))
+                            {
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-encodedName="@item.EncodedName">Usuń</a>
+                            }
+                        }
                         <a asp-action="AddToCart" asp-controller="Cart" asp-route-encodedNameProduct="@item.EncodedName" type="button" class="btn bg-cart"><i class="fa fa-cart-plus mr-2"></i> Do Koszyka</a>
 
 
                     </div>
 
                 </div>
-
-
 
 
             </div>
@@ -72,10 +84,7 @@
 </div>
 
 
-
-
-
 @section Styles{
-    <link rel="stylesheet" href="~/css/ProductCss.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ProductCss.css" asp-append-version="true"/>
 
 }
