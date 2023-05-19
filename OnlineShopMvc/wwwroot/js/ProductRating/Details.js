@@ -36,7 +36,7 @@
 				<div class="media-body">
                     <h5 class="mt-0">${service.userName}</h5>
 	                <p>${service.description}</p>
-	                <p>${ratingStars}/5</p>
+	                <p>${ratingStars}</p>
 	                <p class="text-muted">${formattedDate}</p>
 	            </div>
 	        </div>`)
