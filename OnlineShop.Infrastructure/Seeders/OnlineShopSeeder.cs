@@ -26,7 +26,6 @@ namespace OnlineShop.Infrastructure.Seeders
 
             if (!_dbContext.AppUsers.Any())
             {
-
                 var user = new AppUser()
                 {
                     FirstName = "Tomasz",
@@ -36,16 +35,33 @@ namespace OnlineShop.Infrastructure.Seeders
                     Email = "Tomasz@gmail.com",
                     NormalizedEmail = "TOMASZ@GMAIL.COM",
                 };
+                var secondUser = new AppUser()
+                {
+                    FirstName = "Test",
+                    LastName = "Test",
+                    UserName = "Test@Test.com",
+                    NormalizedUserName = "TEST@TEST.COM",
+                    Email = "Test@Test.com",
+                    NormalizedEmail = "TEST@TEST.COM",
+                };
                 PasswordHasher<AppUser> hasher = new PasswordHasher<AppUser>();
                 user.PasswordHash = hasher.HashPassword(user, "haslo");
+                secondUser.PasswordHash = hasher.HashPassword(secondUser, "haslo");
                 _dbContext.AppUsers.Add(user);
-                await _dbContext.SaveChangesAsync();
+                _dbContext.AppUsers.Add(secondUser);
                 var userRole = new IdentityUserRole<string>()
                 {
                     UserId = user.Id,
                     RoleId = _dbContext.Roles.Where(x => x.Name == "Admin").First().Id
                 };
+                var userRoleTwo = new IdentityUserRole<string>()
+                {
+                    UserId = secondUser.Id,
+                    RoleId = _dbContext.Roles.Where(x => x.Name == "User").First().Id
+                };
                 _dbContext.UserRoles.Add(userRole);
+                _dbContext.UserRoles.Add(userRoleTwo);
+                await _dbContext.SaveChangesAsync();
             }
 
             if (!_dbContext.Products.Any())
@@ -56,29 +72,67 @@ namespace OnlineShop.Infrastructure.Seeders
                     Price = 1250.99M,
                     Description = "Szybki i wytrzymały rower górski.",
                 };
-                product.Images.Add(
-                    new Image()
-                    {
-                        FileName = "bicycle.jpg",
-                        Product = product
-                    });
+                var img1 = new Image()
+                {
+                    FileName = "bicycle.jpg",
+                    Product = product
+                };
+                var img2 = new Image()
+                {
+                    FileName = "bicycle2.jpg",
+                    Product = product
+                };
+                product.Images.Add(img1);
+                product.Images.Add(img2);
+
 
                 var secondProduct = new Product()
                 {
-                    Name = "Motocykl",
-                    Price = 19653.99M,
-                    Description = "Wytrzymały ale nie za szybki."
+                    Name = "Kask",
+                    Price = 129.99M,
+                    Description = "Bardzo wytrzymały."
                 };
-                secondProduct.Images.Add(new Image()
+                var listImg = new List<Image>()
                 {
-                    FileName = "helmet.jpg",
-                    Product = secondProduct
-                });
+                    new Image()
+                    {
+                        FileName = "helmet.jpg",
+                        Product = secondProduct
+                    },
+                    new Image()
+                    {
+                        FileName = "helmet2.jpg",
+                        Product = secondProduct
+                    }
+                };
+                secondProduct.Images.AddRange(listImg);
+                var thirdProduct = new Product()
+                {
+                    Name = "Bidon",
+                    Price = 30.99M,
+                    Description = "Najlepszy bidon."
+                };
+                var listImgBidon = new List<Image>()
+                {
+                    new Image()
+                    {
+                        FileName = "bidon.jpg",
+                        Product = thirdProduct
+                    },
+                    new Image()
+                    {
+                        FileName = "bidon2.jpg",
+                        Product = thirdProduct
+                    }
+                };
+                thirdProduct.Images.AddRange(listImgBidon);
                 product.EncodeName();
                 secondProduct.EncodeName();
-                _dbContext.Products.AddRange(product, secondProduct);
+                thirdProduct.EncodeName();
+                _dbContext.Products.AddRange(product, secondProduct,thirdProduct);
                 await _dbContext.SaveChangesAsync();
             }
+
             if (!_dbContext.ProductRatings.Any())
             {
                 var rating = new ProductRating()

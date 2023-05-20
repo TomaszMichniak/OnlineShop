@@ -5,3 +5,16 @@
     border-bottom:10px solid black;
     padding-bottom:10px;
 }
+.bg-button{
+    background-color: rgba(55,55,55,0.4);
+}
+.imgHeigh{
+    height: 500px!important;
+    object-fit: cover;
+}
+.text-align{
+    text-align: center;
+}
+.color-yellow{
+    background-color: orange;
+}
